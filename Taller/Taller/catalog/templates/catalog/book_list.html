@@ -1,0 +1,39 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Catálogo{% endblock %}
+
+{% block content %}
+<h2>Catálogo de libros</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Buscar por título o autor">
+    <button type="submit">Buscar</button>
+</form>
+
+<ul>
+    {% for book in page_obj.object_list %}
+        <li>
+            <a href="{% url 'catalog:book_detail' book.pk %}">
+                {{ book.title }} – {{ book.author }}
+            </a>
+            {% if book.is_available %}
+                <span class="badge disponible">Disponible</span>
+            {% else %}
+                <span class="badge prestado">Prestado</span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No hay libros.</li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&q={{ query }}">Siguiente</a>
+    {% endif %}
+</div>
+{% endblock %}

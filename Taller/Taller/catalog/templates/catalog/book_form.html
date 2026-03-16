@@ -1,0 +1,12 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Libro{% endblock %}
+
+{% block content %}
+<h2>{% if book %}Editar libro{% else %}Nuevo libro{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+{% endblock %}

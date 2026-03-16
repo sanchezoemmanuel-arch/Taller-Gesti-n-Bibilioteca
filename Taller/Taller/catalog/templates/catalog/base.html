@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Biblioteca{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<header>
+    <h1>Sistema de Biblioteca</h1>
+    <nav>
+        <a href="{% url 'catalog:book_list' %}">Catálogo</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'loans:my_loans' %}">Mis préstamos</a>
+            {% if user.is_staff %}
+                <a href="{% url 'catalog:book_create' %}">Nuevo libro</a>
+                <a href="{% url 'loans:loan_list' %}">Gestión préstamos</a>
+            {% endif %}
+           <form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Salir</button>
+</form>
+
+        {% else %}
+            <a href="{% url 'login' %}">Ingresar</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <small>Biblioteca – Taller Django</small>
+</footer>
+</body>
+</html>

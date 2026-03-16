@@ -1,0 +1,28 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+<p><strong>Autor:</strong> {{ book.author }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p>
+    <strong>Estado:</strong>
+    {% if book.is_available %}Disponible{% else %}Prestado{% endif %}
+</p>
+<p>
+    <strong>Fecha último préstamo:</strong>
+    {% if last_loan and last_loan.end_date %}
+        {{ last_loan.end_date }}
+    {% else %}
+        N/A
+    {% endif %}
+</p>
+
+{% if user.is_staff %}
+    <p>
+        <a href="{% url 'catalog:book_update' book.pk %}">Editar</a> |
+        <a href="{% url 'catalog:book_delete' book.pk %}">Eliminar</a>
+    </p>
+{% endif %}
+{% endblock %}

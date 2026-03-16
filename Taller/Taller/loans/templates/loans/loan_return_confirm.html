@@ -1,0 +1,13 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Devolución{% endblock %}
+
+{% block content %}
+<h2>Registrar devolución</h2>
+<p>Vas a registrar la devolución del libro "{{ loan.book }}" prestado a {{ loan.user }}.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar devolución</button>
+    <a href="{% url 'loans:loan_list' %}">Cancelar</a>
+</form>
+{% endblock %}

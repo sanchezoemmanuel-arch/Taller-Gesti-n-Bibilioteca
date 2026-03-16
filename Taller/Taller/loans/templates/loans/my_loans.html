@@ -1,0 +1,16 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Mis préstamos{% endblock %}
+
+{% block content %}
+<h2>Mis préstamos activos</h2>
+<ul>
+    {% for loan in loans %}
+        <li>
+            {{ loan.book.title }} – vence el {{ loan.due_date }}
+        </li>
+    {% empty %}
+        <li>No tienes préstamos activos.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
